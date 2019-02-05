@@ -4,7 +4,7 @@ Updated 2019 verison of the Compatibility Script used for automating sensor repo
 
 ---
 
-**Disclaimer #1:** this code is 100% only for the use of Compatibilty Report Scripting that was used for automating certain sensor reports at my current internship - that's all. DO NOT use this code for reference, there is a lot of _bad coding practices_ in here.
+**Disclaimer #1:** this code is 100% only for the use of Compatibilty Report Scripting that was used for automating certain sensor reports at my current internship - that's all. DO NOT use this code for reference, there is a lot of _bad coding practices_ in this file. 
 
 **Disclaimer #2:** most of the code is 'hard-coded' exactly for a specific monitor resolution (1440 x 900). If you are referencing this repo, please do not use my exact pixel positions - it won't work on your machine. Please reference the documentation for each method / program. Also, there's many autoIt scripts running on sidewinder that'll need to be working for full utilization of this script. 
 
