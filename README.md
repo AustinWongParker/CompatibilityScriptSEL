@@ -1,4 +1,4 @@
-# CompatibilityScriptSEL2
+# CompatibilityScriptSEL
 
 Updated 2019 verison of the Compatibility Script used for automating sensor report information. This repository is the successor of CompatScript.py
 
