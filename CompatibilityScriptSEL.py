@@ -192,7 +192,6 @@ print('  ')
 # Declaring Variables + asking questions for user
 # ----------------------------------------------------------
 
-
 nameOfDevice = input("Please enter the name of your device: ") # User enters name of Device
 portName = input("Please enter port name for your device (Less than 23 characters): ") # User enters friendly-port name of Device
 global resetIOLink
