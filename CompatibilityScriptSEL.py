@@ -24,7 +24,7 @@ from selenium.webdriver.common.keys import Keys
 pyautogui.PAUSE = 1.5
 
 # ----------------------------------------------------------
-# These are self-made functions for the script.
+# Functions for the script.
 # ----------------------------------------------------------
 
 def maxFileRobo(): #function to open and maximize RoboScreenCapture
