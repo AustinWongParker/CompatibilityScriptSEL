@@ -21,6 +21,7 @@ from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.common.keys import Keys
+pyautogui.PAUSE = 1.5
 
 # ----------------------------------------------------------
 # These are self-made functions for the script.
@@ -55,18 +56,56 @@ def redCircle(): #function to open circle-maker in RoboCapture [Hard-coded]
     pyautogui.click()
 
 def resetIOLinkMaster(): #function to allow pyautogui to reset the IO-Link Master [Hard-coded]
-    '''
-    -
-    -
-    -
-    '''
+    if resetIOLink[0] == 'y':
+        driver.get("http://10.8.15.84")
+        driver.get("http://10.8.15.84/Resetconf")
+        pyautogui.moveTo(65, 289)
+        pyautogui.click()
+        pyautogui.moveTo(65, 312)
+        pyautogui.click()
+        pyautogui.moveTo(97, 360)
+        pyautogui.click()
+        time.sleep(2)
+        pyautogui.moveTo(885, 518)
+        pyautogui.click()
+    elif resetIOLink[0] == 'n':
+        pass
+    else:
+        print('Please type yes or no')
+        resetIOLinkMaster()
 
-def askIODDFinder(): #function to allow pyautogui
-    '''
-    -
-    -
-    -
-    '''
+def askIODDFinder(): #function to allow pyautogui to make screenshots for IODD finder
+    if iodd[0] == 'y':
+        driver.get("https://ioddfinder.io-link.com/#/")
+        manuNAME = input(('Manufacturer name? (Ex: SICK, Barksdale)'))
+        pyautogui.moveTo(360, 378)
+        pyautogui.click()
+        pyautogui.typewrite(manuNAME)
+        time.sleep(1)
+        pyautogui.moveTo(659, 881) #This will serve as a dual-purpose
+        pyautogui.click()
+        pyautogui.hotkey('ctrl', 'shift', 'r')
+        pyautogui.moveTo(0, 75)
+        pyautogui.dragTo(1439, 510)
+        pyautogui.moveTo(659, 881)
+        pyautogui.click()
+        pyautogui.moveTo(391, 446)
+        pyautogui.click()
+        pyautogui.moveTo(319, 175)
+        pyautogui.click()
+        pyautogui.typewrite(productTYPE)
+        pyautogui.PAUSE = 1
+
+        '''
+        Choose options 1 2 3?? cases?
+        '''
+
+
+    elif resetIOLink[0] == 'n':
+        pass
+    else:
+        print('Please type yes or no')
+        askIODDFinder()
 
 def editroboText(): #function to change font, color, and style size
     pyautogui.PAUSE = 1
@@ -130,7 +169,7 @@ def comtrolRobo(): #function for moving cursor to top-left screen where the comt
     pyautogui.moveTo(0, 75)
 
 def midDiagRobo(): #function for moving cursor to port 2 (right side) for the diagnostics page
-    pyautogui.dragTo(866, 856)
+    pyautogui.dragTo(862, 856)
     pyautogui.click()
 
 def openEditconfigMid(): #function for moving cursor to opened edit for configuration page
@@ -153,8 +192,20 @@ print('  ')
 # Declaring Variables + asking questions for user
 # ----------------------------------------------------------
 
+
 nameOfDevice = input("Please enter the name of your device: ") # User enters name of Device
 portName = input("Please enter port name for your device (Less than 23 characters): ") # User enters friendly-port name of Device
+global resetIOLink
+resetIOLink = str(input("Do you want to reset the IO-Link Master configurations settings? [Y/N]"))
+global IODD
+IODD = str(input("Did you get your IODD File from IODDFinder.com? [Y/N]")).lower()
+if IODD[0] == 'y':
+    global productTYPE
+    productTYPE = str(input('What is the product type? (Ex: OD1000) If you do not know, enter null/no')).lower()
+    if productTYPE[0] == 'n':
+        pass
+else:
+    pass
 
 # Welcome Script [AutoIt]
 os.system("\\\\sidewinder\SW_Vault\PENDING\_IO-Link_Devices\_Compatibility_Reports\Scripts\Welcome.exe")
@@ -166,25 +217,29 @@ driver = webdriver.Firefox()
 # SCRIPT IS NOW ACTIVE
 # ----------------------------------------------------------
 
+
 # Step 1: go to the IO-Link Master
 print('Step 1')
-driver.get("http://10.8.14.84")
+driver.get("http://10.8.15.84")
 
 # Step 2: Make browser 80% magnifer
 print('Step 2')
 pyautogui.hotkey('ctrl', '-')
 pyautogui.hotkey('ctrl', '-')
 
-# Step 3: go to advanced | software
+# Step 3: get window size
 print('Step 3')
-driver.get("http://10.8.14.84/Software")
-
-# Step 4: get window size
-print('Step 4')
 print(" ")
 print(driver.get_window_size())
 print("Script: Making maximum window size.")
 driver.maximize_window()
+
+time.sleep(2)
+resetIOLinkMaster() #askIODDFinder = input("Did you use IODD Finder to get to your IODD? [Y/N]") #User enter Y or N if they got their iodd from ioddfinder.com
+
+# Step 4: go to advanced | software
+print('Step 4')
+driver.get("http://10.8.15.84/Software")
 
 # Step 5: Taking screenshot 1 (Page 3)
 print('Step 5')
@@ -218,7 +273,7 @@ minRobo()
 
 # Step 7: Taking screenshot 2 (Page 4)
 print('Step 7')
-driver.get("http://10.8.14.84/IOLink/Diag")
+driver.get("http://10.8.15.84/IOLink/Diag")
 pyautogui.moveTo(1194, 192)
 pyautogui.click()
 reopenRobo()
@@ -230,11 +285,11 @@ midDiagRobo()
 print('Step 8')
 time.sleep(2)
 Highlighter()
-pyautogui.moveTo(385, 329)
+pyautogui.moveTo(382, 329)
 pyautogui.dragTo(542, 462)
-pyautogui.moveTo(386, 568)
+pyautogui.moveTo(383, 568)
 pyautogui.dragTo(457, 622)
-pyautogui.moveTo(385, 729)
+pyautogui.moveTo(382, 729)
 pyautogui.dragTo(446, 782)
 pyautogui.click()
 roboText()
@@ -254,7 +309,7 @@ minRobo()
 
 # Step 9: Taking Screenshot 3 (Page 5)
 print('Step 9')
-driver.get("http://10.8.14.84/IOLink/Settings")
+driver.get("http://10.8.15.84/IOLink/Settings")
 pyautogui.moveTo(714, 271)
 pyautogui.click()
 pyautogui.moveTo(559, 741)
@@ -315,10 +370,11 @@ pyautogui.PAUSE = 1
 closedEditconfigMid()
 
 #Step 12: Edits for Screenshot 4 (Page 6)
+print('Step 12')
 time.sleep(2)
 Highlighter()
 pyautogui.moveTo(133, 623)
-pyautogui.dragTo(841, 650)
+pyautogui.dragTo(833, 648)
 pyautogui.click()
 roboText()
 pyautogui.moveTo(505, 197)
@@ -328,3 +384,49 @@ pyautogui.moveTo(682, 576) #Press OK in Edit Text Screen
 pyautogui.click()
 savePhoto()
 minRobo()
+
+# Step 13: Taking Screenshot 5 (Page 7)
+print("Step 13")
+driver.get("http://10.8.15.84/IOLink/Diag")
+reopenRobo()
+pyautogui.hotkey('ctrl', 'shift', 'r')
+comtrolRobo()
+midDiagRobo()
+
+# Step 14: Edits for Screenshot 5 (Page 7)
+print('Step 14')
+time.sleep(2)
+Highlighter()
+pyautogui.moveTo(381, 274)
+pyautogui.dragTo(522, 302)
+pyautogui.click()
+pyautogui.moveTo(133, 649)
+pyautogui.dragTo(482, 675)
+pyautogui.click()
+redCircle()
+pyautogui.moveTo(695, 253)
+pyautogui.dragTo(717, 270)
+pyautogui.click()
+roboText()
+pyautogui.moveTo(531, 276)
+pyautogui.dragTo(693, 308, 0.5, button='left')
+pyautogui.typewrite("Friendly Port Name")
+pyautogui.moveTo(682, 576) #Press OK in Edit Text Screen
+pyautogui.click()
+pyautogui.moveTo(541, 214)
+pyautogui.dragTo(954, 266, 0.5, button='left')
+editroboText()
+pyautogui.typewrite('Ports 2 - 4 may be collapsed to simpify the view.')
+pyautogui.moveTo(682, 576) #Press OK in Edit Text Screen
+pyautogui.click()
+pyautogui.moveTo(485, 627)
+pyautogui.dragTo(657, 688, 0.5, button='left')
+editroboText()
+pyautogui.typewrite('Automatic Data Storage is enabled.')
+pyautogui.moveTo(682, 576) #Press OK in Edit Text Screen
+pyautogui.click()
+savePhoto()
+minRobo()
+
+# Step 15: Taking Screenshot 6 (Page 10)
+askIODDFinder()
