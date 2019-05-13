@@ -12,9 +12,7 @@ Project Start: 1/25/19
 import os
 import time
 import pyautogui
-import webbrowser
-import win32gui
-from pywinauto import Application
+import webbrowser 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
